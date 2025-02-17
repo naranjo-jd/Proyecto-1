@@ -42,4 +42,37 @@ def cluster(data, centroids):
     return clusters
 
 
+# Test alternativa clustering
+def clust(data, centroids):
+    points = data
+    clusters = []
+    for point in points:
+        distances = []
+        for centroid in centroids:
+            distances.append(np.linalg.norm(point - centroid))
+        clusters.append(distances.index(min(distances)))
+        distances.clear
+    return clusters
+# Ejemplo data
+data = np.array([
+    [2, 3],  # Point 0
+    [3, 3],  # Point 1
+    [3, 4],  # Point 2
+    [5, 8],  # Point 3
+    [6, 8],  # Point 4
+    [7, 7],  # Point 5
+    [8, 2],  # Point 6
+    [7, 3],  # Point 7
+    [8, 3],  # Point 8
+    [7, 2]   # Point 9
+])
+initial_centroids = np.array([
+    [3, 4],
+    [8, 3],
+    [6, 8]
+])
+print(clust(data, initial_centroids))
+# output esperado: expected_assignments = [0, 0, 0, 2, 2, 2, 1, 1, 1, 1]
+
+
 
