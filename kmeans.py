@@ -31,4 +31,15 @@ plt.title('K-Means Initialization')
 plt.legend()
 plt.show()
 
+# Funcion clustering
+def cluster(data, centroids):
+    points = data[['x', 'y']].to_numpy()
+    clusters = {i: [] for i in range(len(centroids))}
+    distances = np.linalg.norm(points[:, np.newaxis] - centroids, axis=2)
+    for idx, point in enumerate(points):
+        closest_centroid = np.argmin(distances[idx])
+        clusters[closest_centroid].append(point)
+    return clusters
+
+
 
