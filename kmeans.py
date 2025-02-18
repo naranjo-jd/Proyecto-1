@@ -13,66 +13,80 @@ data_3d = pd.read_csv("data_3d.csv")
 # Fijar la semilla
 np.random.seed(42)
 
-# Funcion que retorna una lista de k puntos aleatorios en la data
-def init_centroids(data, k):
+# (2d) Funcion que retorna una lista de k puntos aleatorios en la data 2d
+def init_centroids_2d(data, k):
     centroids = []
     rand_points = np.random.randint(0, data.shape[0] + 1, k)
     for i in rand_points:
         centroids.append([data.loc[i, 'x'], data.loc[i, 'y']])
     return np.array(centroids)
 
-# Test con k=5
-centroids = init_centroids(data_2d, 5)
-plt.scatter(data_2d['x'], data_2d['y'], color='blue', label='Data Points', alpha=0.5)
-plt.scatter(centroids[:, 0], centroids[:, 1], color='red', marker='x', s=200, label='Centroids')
-plt.xlabel('X')
-plt.ylabel('Y')
-plt.title('K-Means Initialization')
-plt.legend()
-plt.show()
+# (3d) Funcion que retorna una lista de k puntos aleatorios en la data 
+def init_centroids_3d(data, k):
+    centroids = []
+    rand_points = np.random.randint(0, data.shape[0] + 1, k)
+    for i in rand_points:
+        centroids.append([data.loc[i, 'x'], data.loc[i, 'y'], data.loc[i, 'z']])
+    return np.array(centroids)
 
-# Funcion clustering
-def cluster(data, centroids):
+# (2d) Funcion clustering
+def cluster_2d(data, centroids):
     points = data[['x', 'y']].to_numpy()
-    clusters = {i: [] for i in range(len(centroids))}
-    distances = np.linalg.norm(points[:, np.newaxis] - centroids, axis=2)
-    for idx, point in enumerate(points):
-        closest_centroid = np.argmin(distances[idx])
-        clusters[closest_centroid].append(point)
-    return clusters
-
-
-# Test alternativa clustering
-def clust(data, centroids):
-    points = data
-    clusters = []
+    clusters = [[] for _ in range(centroids.shape[0])]
     for point in points:
-        distances = []
-        for centroid in centroids:
-            distances.append(np.linalg.norm(point - centroid))
-        clusters.append(distances.index(min(distances)))
-        distances.clear
-    return clusters
-# Ejemplo data
-data = np.array([
-    [2, 3],  # Point 0
-    [3, 3],  # Point 1
-    [3, 4],  # Point 2
-    [5, 8],  # Point 3
-    [6, 8],  # Point 4
-    [7, 7],  # Point 5
-    [8, 2],  # Point 6
-    [7, 3],  # Point 7
-    [8, 3],  # Point 8
-    [7, 2]   # Point 9
-])
-initial_centroids = np.array([
-    [3, 4],
-    [8, 3],
-    [6, 8]
-])
-print(clust(data, initial_centroids))
-# output esperado: expected_assignments = [0, 0, 0, 2, 2, 2, 1, 1, 1, 1]
+        distances = np.linalg.norm(centroids - point, axis=1)
+        nearest_index = np.argmin(distances)
+        clusters[nearest_index].append(point)
+    return np.array(clusters)
 
+# (3d) Funcion clustering
+def cluster_3d(data, centroids):
+    points = data[['x', 'y', 'z']].to_numpy()
+    clusters = [[] for _ in range(centroids.shape[0])]
+    for point in points:
+        distances = np.linalg.norm(centroids - point, axis=1)
+        nearest_index = np.argmin(distances)
+        clusters[nearest_index].append(point)
+    return np.array(clusters)
 
+def plot_2d(data, centroids):
+    plt.scatter(data['x'], data['y'], color='blue', label='Data Points', alpha=0.5)
+    plt.scatter(centroids[:, 0], centroids[:, 1], color='red', marker='x', s=200, label='Centroids')
+    plt.xlabel('X')
+    plt.ylabel('Y')
+    plt.title('K-Means')
+    plt.legend()
+    plt.show()
 
+def plot_3d(data, centroids):
+    # Create a new figure and a 3D axis
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    # Plot data points; assuming data is a pandas DataFrame with columns 'x', 'y', and 'z'
+    ax.scatter(data['x'], data['y'], data['z'], color='blue', label='Data Points', alpha=0.5)
+    # Plot centroids; assuming centroids is a NumPy array with shape (n, 3)
+    ax.scatter(centroids[:, 0], centroids[:, 1], centroids[:, 2],
+               color='red', marker='x', s=200, label='Centroids')
+    # Set axis labels
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_zlabel('Z')
+    # Set title and legend
+    ax.set_title('K-Means Clustering (3D)')
+    ax.legend()
+    # Show the plot
+    plt.show()
+
+# Update centroids
+def updt_centroids(clusters):
+    new_centroids = []
+    for cluster in clusters:
+        for point in cluster:
+
+        np.mean(cluster, axis=0)
+
+# Lista de puntos en 2D
+puntos = np.array([[2, 3], [3, 3], [3, 4]])
+
+# Media aritmética por columnas
+centroide = np.mean(puntos, axis=0)
