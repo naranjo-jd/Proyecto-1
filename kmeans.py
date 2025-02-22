@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+import random 
 data_2d = pd.read_csv("data_2d.csv")
 data_3d = pd.read_csv("data_3d.csv")
 
@@ -44,21 +45,21 @@ def scatter_3d(data):
 np.random.seed(42)
 
 #### (2d) Funcion que retorna una lista de k puntos aleatorios en la data 2d
+
 def init_centroids_2d(data, k):
     centroids = []
-    rand_points = np.random.randint(0, data.shape[0] + 1, k)
-    for i in rand_points:
-        centroids.append([data.loc[i, 'x'], data.loc[i, 'y']])
+    for i in range(k):
+        centroids.append([np.random.uniform(data['x'].min(), data['x'].max()), np.random.uniform(data['y'].min(), data['y'].max())])
     return np.array(centroids)
 
 #### (3d) Funcion que retorna una lista de k puntos aleatorios en la data 3d
 def init_centroids_3d(data, k):
     centroids = []
-    rand_points = np.random.randint(0, data.shape[0] + 1, k)
-    for i in rand_points:
-        centroids.append([data.loc[i, 'x'], data.loc[i, 'y'], data.loc[i, 'z']])
+    for i in range(k):
+        centroids.append([np.random.uniform(data['x'].min(), data['x'].max()), 
+                          np.random.uniform(data['y'].min(), data['y'].max()),
+                          np.random.uniform(data['z'].min(), data['z'].max())])
     return np.array(centroids)
-
 
 ### ii) Creamos los clusters
 
@@ -152,8 +153,15 @@ def plot_3d(data, centroids):
     # Show the plot
     plt.show()
     
-# Test
+# Test 2d
 centros = init_centroids_2d(data_2d, 5)
 centroides = kmeans(data_2d, 2, 5)
 plot_2d(data_2d, centros)
 plot_2d(data_2d, centroides)
+
+# Test 3d
+centros = init_centroids_3d(data_3d, 5)
+centroides = kmeans(data_3d, 3, 5)
+plot_3d(data_3d, centros)
+plot_3d(data_3d, centroides)
+
