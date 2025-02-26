@@ -3,8 +3,8 @@ import clustering as clust
 import graphers as grph
 import metric
 
-data_2d = pd.read_csv("data_2d.csv")
-data_3d = pd.read_csv("data_3d.csv")
+data_2d = pd.read_csv("../data/data_2d.csv")
+data_3d = pd.read_csv("../data/data_3d.csv")
 
 # Test 2D
 centros = clust.centroids(data_2d, 2, 5)
