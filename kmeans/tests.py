@@ -3,8 +3,8 @@ import clustering as clust
 import graphers as grph
 import metric
 
-data_2d = pd.read_csv("../data/data_2d.csv")
-data_3d = pd.read_csv("../data/data_3d.csv")
+data_2d = pd.read_csv("data/data_2d.csv")
+data_3d = pd.read_csv("data/data_3d.csv")
 
 # Test 2D
 centros = clust.centroids(data_2d, 2, 5)
@@ -21,3 +21,5 @@ grph.plot_3d(data_3d, centros)
 grph.plot_3d(data_3d, centroides)
 
 print("Inercia 3d:", metric.inertia(clusters_3d, centroides, metric.euclidean))  # Usamos los clusters correctos
+
+print("dimension data:", len(data_mall))

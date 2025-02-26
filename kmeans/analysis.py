@@ -6,8 +6,8 @@ import metric
 import matplotlib.pyplot as plt
 
 # Cargar datos
-data_2d = pd.read_csv("data_2d.csv")
-data_3d = pd.read_csv("data_3d.csv")
+data_2d = pd.read_csv("data/data_2d.csv")
+data_3d = pd.read_csv("data/data_3d.csv")
 
 # Definir métricas
 metrics = {

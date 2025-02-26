@@ -23,31 +23,35 @@ def scatter_3d(data):
     ax.legend()
     plt.show()
 
-# Funciones graficadoras
-def plot_2d(data, centroids):
-    plt.scatter(data['x'], data['y'], color='blue', label='Data Points', alpha=0.5)
+
+def plot_2d(data, centroids, col_names=None):
+    if col_names is None:
+        col_names = data.columns[:2]  # Usa las dos primeras columnas por defecto
+    
+    plt.scatter(data[col_names[0]], data[col_names[1]], color='blue', label='Data Points', alpha=0.5)
     plt.scatter(centroids[:, 0], centroids[:, 1], color='red', marker='x', s=200, label='Centroids')
-    plt.xlabel('X')
-    plt.ylabel('Y')
-    plt.title('K-Means')
+    
+    plt.xlabel(col_names[0])
+    plt.ylabel(col_names[1])
+    plt.title('K-Means Clustering (2D)')
     plt.legend()
     plt.show()
 
-def plot_3d(data, centroids):
-    # Create a new figure and a 3D axis
+def plot_3d(data, centroids, col_names=None):
+    if col_names is None:
+        col_names = data.columns[:3]  # Usa las tres primeras columnas por defecto
+
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
-    # Plot data points; assuming data is a pandas DataFrame with columns 'x', 'y', and 'z'
-    ax.scatter(data['x'], data['y'], data['z'], color='blue', label='Data Points', alpha=0.5)
-    # Plot centroids; assuming centroids is a NumPy array with shape (n, 3)
-    ax.scatter(centroids[:, 0], centroids[:, 1], centroids[:, 2],
+
+    ax.scatter(data[col_names[0]], data[col_names[1]], data[col_names[2]], 
+               color='blue', label='Data Points', alpha=0.5)
+    ax.scatter(centroids[:, 0], centroids[:, 1], centroids[:, 2], 
                color='red', marker='x', s=200, label='Centroids')
-    # Set axis labels
-    ax.set_xlabel('X')
-    ax.set_ylabel('Y')
-    ax.set_zlabel('Z')
-    # Set title and legend
+
+    ax.set_xlabel(col_names[0])
+    ax.set_ylabel(col_names[1])
+    ax.set_zlabel(col_names[2])
     ax.set_title('K-Means Clustering (3D)')
     ax.legend()
-    # Show the plot
     plt.show()
