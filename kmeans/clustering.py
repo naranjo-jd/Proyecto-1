@@ -17,7 +17,7 @@ def centroids(data, dim, k):
 ### ii) Creamos los clusters
 
 #### Funcion clustering
-def cluster(data, dim, centroids):
+def cluster(data, dim, centroids, metric):
     clusters = [[] for _ in range(centroids.shape[0])]
     if dim == 2:
         points = data[['x', 'y']].to_numpy()
@@ -25,7 +25,7 @@ def cluster(data, dim, centroids):
         points = data[['x', 'y', 'z']].to_numpy()
     for point in points:
         # Calculamos la distancia del punto a los centroides
-        distances = np.linalg.norm(centroids - point, axis=1)
+        distances = [metric(centroid, point)[0] for centroid in centroids]
         # Encontramos el indice del centroide mas cercano
         nearest_index = np.argmin(distances)
         # Agregamos el punto al cluster (lista)
@@ -42,16 +42,16 @@ def update_centroids(clusters, dim):
             new_centroids[i] = np.zeros(dim)  
     return new_centroids
 
-def kmeans(data, dim, k, max_iter=100, tol=1e-4):
+def kmeans(data, dim, k, metric, max_iter=100, tol=1e-4):
     cent = centroids(data, dim, k)
+    
     for _ in range(max_iter):
-        # Asignar puntos a los clusters más cercanos
-        clusters = cluster(data, dim, cent)
-        # Calcular nuevos centroides
+        clusters = cluster(data, dim, cent, metric)
         new_centroids = update_centroids(clusters, dim)
-        # Verificar convergencia (si los centroides no cambian significativamente)
-        if np.linalg.norm(new_centroids - cent) < tol:
+
+        if metric(new_centroids, cent)[0] < tol:
             break
-        # Actualizar centroides
+
         cent = new_centroids
-    return cent
+
+    return cent, clusters
