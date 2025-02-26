@@ -2,7 +2,7 @@ import numpy as np
 
 #Funcion inicializadora de centroides
 def centroids(data, dim, k):
-    np.random.seed(41)
+    np.random.seed(40)
     centroids = []
     if dim == 2:
         for i in range(k):
@@ -48,8 +48,8 @@ def kmeans(data, dim, k, metric, max_iter=100, tol=1e-4):
     for _ in range(max_iter):
         clusters = cluster(data, dim, cent, metric)
         new_centroids = update_centroids(clusters, dim)
-
-        if metric(new_centroids, cent)[0] < tol:
+        distances = [metric(new_centroids[i], cent[i])[0] for i in range(len(cent))]
+        if max(distances) < tol:
             break
 
         cent = new_centroids
