@@ -44,16 +44,15 @@ def update_centroids(clusters):
 ### iv) Algoritmo K-Means
 def Kmeans(data, k, metric, seed = 42, max_iter=100, tol=1e-4):
     cent = centroids(data, k, seed)  # Inicializar centroides
-
     for _ in range(max_iter):
         clusters = cluster(data, cent, metric)
         new_centroids = update_centroids(clusters)
 
         # Comparación de cambios en centroides
-        distances = [metric(new_centroids[i], cent[i])[0] for i in range(len(cent))]
+        # distances = [metric(new_centroids[i], cent[i])[0] for i in range(len(cent))]
+        distances = [np.linalg.norm(new_centroids[i] - cent[i]) for i in range(len(cent))]
         if max(distances) < tol:
             break
-
         cent = new_centroids
 
     return cent, clusters

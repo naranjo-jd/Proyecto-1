@@ -1,19 +1,23 @@
 import pandas as pd
+import numpy as np
 import kmeans
 import graphers as grph
 import metric
 import analytics
 
 data_2d = pd.read_csv("data/data_2d.csv")
+data_2d_to_fit = data_2d.iloc[:, :-1]
 k = 5
-seed = 42
+seed = 41
+seeds = [41,40,21,44,50]
+A = np.array([[2, 1], 
+              [1, 2]])
 metrica = metric.euclidean
 
+init_centroids = kmeans.centroids(data_2d_to_fit, k, seed)
+centroids, clusters = kmeans.Kmeans(data_2d_to_fit, k, metrica, seed)  # Ahora obtenemos clusters
+grph.plot_2d(data_2d_to_fit, init_centroids)
+grph.plot_2d(data_2d_to_fit, centroids)
 
-init_centroids = kmeans.centroids(data_2d, k, seed)
-centroids, clusters = kmeans.Kmeans(data_2d, k, metrica, seed)  # Ahora obtenemos clusters
-grph.plot_2d(data_2d, init_centroids)
-grph.plot_2d(data_2d, centroids)
-
-analisis = analytics.analysis(data_2d, k, seed)
-analytics.compare(analisis)
+analisis = analytics.analysis_multiple_seeds(data_2d_to_fit, k, A, seeds)
+analytics.compare_inertia_by_seed(analisis)
