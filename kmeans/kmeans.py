@@ -1,8 +1,8 @@
 import numpy as np
 
 ### i) Inicialización de centroides
-def centroids(data, k):
-    np.random.seed(40)
+def centroids(data, k, seed=42):
+    np.random.seed(seed)
     cols = data.columns  # Obtiene todas las columnas del DataFrame
     centroids = np.array([
         [np.random.uniform(data[col].min(), data[col].max()) for col in cols]
@@ -42,9 +42,8 @@ def update_centroids(clusters):
     return new_centroids
 
 ### iv) Algoritmo K-Means
-def kmeans(data, k, metric, max_iter=100, tol=1e-4):
-    dim = data.shape[1]  # Número de dimensiones (columnas)
-    cent = centroids(data, k)  # Inicializar centroides
+def Kmeans(data, k, metric, seed = 42, max_iter=100, tol=1e-4):
+    cent = centroids(data, k, seed)  # Inicializar centroides
 
     for _ in range(max_iter):
         clusters = cluster(data, cent, metric)

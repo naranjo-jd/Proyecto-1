@@ -1,24 +1,27 @@
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-## c) Gráfica de los datos
 def scatter_2d(data):
+
+    x_col, y_col = data.columns[:2]  # Obtiene los nombres de las dos primeras columnas
     plt.figure(figsize=(8, 6))
-    plt.scatter(data['x'], data['y'], color='blue', alpha=0.5, label='Data Points')
-    plt.xlabel('X')
-    plt.ylabel('Y')
+    plt.scatter(data[x_col], data[y_col], color='blue', alpha=0.5, label='Data Points')
+    plt.xlabel(x_col)
+    plt.ylabel(y_col)
     plt.title('2D Scatter Plot')
     plt.legend()
     plt.grid(True)
     plt.show()
 
 def scatter_3d(data):
+ 
+    x_col, y_col, z_col = data.columns[:3]  # Obtiene los nombres de las tres primeras columnas
     fig = plt.figure(figsize=(8, 6))
     ax = fig.add_subplot(111, projection='3d')
-    ax.scatter(data['x'], data['y'], data['z'], color='blue', alpha=0.5, label='Data Points')
-    ax.set_xlabel('X')
-    ax.set_ylabel('Y')
-    ax.set_zlabel('Z')
+    ax.scatter(data[x_col], data[y_col], data[z_col], color='blue', alpha=0.5, label='Data Points')
+    ax.set_xlabel(x_col)
+    ax.set_ylabel(y_col)
+    ax.set_zlabel(z_col)
     ax.set_title('3D Scatter Plot')
     ax.legend()
     plt.show()

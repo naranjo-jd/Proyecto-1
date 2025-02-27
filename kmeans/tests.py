@@ -21,5 +21,3 @@ grph.plot_3d(data_3d, centros)
 grph.plot_3d(data_3d, centroides)
 
 print("Inercia 3d:", metric.inertia(clusters_3d, centroides, metric.euclidean))  # Usamos los clusters correctos
-
-print("dimension data:", len(data_mall))

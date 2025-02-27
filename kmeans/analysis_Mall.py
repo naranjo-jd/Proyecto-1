@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-import new_clustering as clust
+import kmeans.kmeans as clust
 import graphers as grph
 import metric
 
