@@ -2,12 +2,18 @@ import pandas as pd
 import kmeans
 import graphers as grph
 import metric
+import analytics
 
 data_3d = pd.read_csv("data/data_3d.csv")
+k = 5
+seed = 42
+metrica = metric.euclidean
 
-centros = kmeans.centroids(data_3d, 5, 42)
-centroides, clusters_3d = kmeans.Kmeans(data_3d, 5, metric.euclidean, 42)  # Ahora obtenemos clusters
-grph.plot_3d(data_3d, centros)
-grph.plot_3d(data_3d, centroides)
 
-print("Inercia 3d:", metric.inertia(clusters_3d, centroides, metric.euclidean)) 
+init_centroids = kmeans.centroids(data_3d, k, seed)
+centroids, clusters = kmeans.Kmeans(data_3d, k, metrica, seed)  # Ahora obtenemos clusters
+grph.plot_3d(data_3d, init_centroids)
+grph.plot_3d(data_3d, centroids)
+
+analisis = analytics.analysis(data_3d, k, seed)
+analytics.compare(analisis)

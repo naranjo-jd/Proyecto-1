@@ -1,8 +1,9 @@
 import numpy as np
 import pandas as pd
-import kmeans.kmeans as clust
+import kmeans
 import graphers as grph
 import metric
+import analytics
 
 mall_data = pd.read_csv("data/Mall_Customers.csv")
 # Mostrar las primeras filas del DataFrame
@@ -14,15 +15,21 @@ mall_data_numeric = mall_data_numeric.drop(columns=['CustomerID'])
 # Centralizar las variables restantes
 mall_data_centered = mall_data_numeric - mall_data_numeric.mean()
 # Dividir por la desviación estándar de cada columna
-mall_data_standardized = mall_data_centered / mall_data_centered.std()
+mall_data = mall_data_centered / mall_data_centered.std()
 # Mostrar las primeras filas del DataFrame estandarizado
 print("Datos estandarizados de Mall Customers:")
-print(mall_data_standardized.head())
+print(mall_data.head())
 
 # Test
-centros = clust.centroids(mall_data_standardized, 5)
-centroides, clusters_3d = clust.kmeans(mall_data_standardized, 5, metric.euclidean)  # Ahora obtenemos clusters
-grph.plot_3d(mall_data_standardized, centros)
-grph.plot_3d(mall_data_standardized, centroides)
 
-print("Inercia 3d:", metric.inertia(clusters_3d, centroides, metric.euclidean))  # Usamos los clusters correctos
+k = 5
+seed = 42
+metrica = metric.euclidean
+
+init_centroids = kmeans.centroids(mall_data, k, seed)
+centroids, clusters = kmeans.Kmeans(mall_data, k, metrica, seed)  # Ahora obtenemos clusters
+grph.plot_3d(mall_data, init_centroids)
+grph.plot_3d(mall_data, centroids)
+
+analisis = analytics.analysis(mall_data, k, seed)
+analytics.compare(analisis)
