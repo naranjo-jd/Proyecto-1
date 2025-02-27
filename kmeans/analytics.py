@@ -54,3 +54,4 @@ def compare_inertia_by_seed(results):
     plt.legend(title="Métrica")
     plt.grid(True)
     plt.show()
+

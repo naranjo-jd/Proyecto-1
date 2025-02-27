@@ -24,6 +24,12 @@ print(mall_data.head())
 
 k = 5
 seed = 42
+seeds = [41,40,21,44,50]
+A = np.array([
+    [3, 1, 1],
+    [1, 3, 1],
+    [1, 1, 3]
+])
 metrica = metric.euclidean
 
 init_centroids = kmeans.centroids(mall_data, k, seed)
@@ -31,5 +37,5 @@ centroids, clusters = kmeans.Kmeans(mall_data, k, metrica, seed)  # Ahora obtene
 grph.plot_3d(mall_data, init_centroids)
 grph.plot_3d(mall_data, centroids)
 
-analisis = analytics.analysis(mall_data, k, seed)
-analytics.compare(analisis)
+analisis = analytics.analysis_multiple_seeds(mall_data, k, A, seeds)
+analytics.compare_inertia_by_seed(analisis)
